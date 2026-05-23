@@ -60,7 +60,7 @@ public class PinpointFullSetup extends LinearOpMode {
         // Reset position and IMU — robot MUST be still
         odo.resetPosAndIMU();
 
-        telemetry.addLine("Pinpoint initialized. Keep robot STILL.");
+        telemetry.addLine("Pinpoint initialized.");
         telemetry.addLine("Press START when ready.");
         telemetry.addData("Device Status", odo.getDeviceStatus());
         telemetry.addData("X Offset (mm)", X_OFFSET);
