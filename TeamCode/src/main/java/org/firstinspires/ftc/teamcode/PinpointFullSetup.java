@@ -10,7 +10,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import java.util.Locale;
 
 /*
- steps:
  *   1. mount Pinpoint sticker side up on chassis.
  *   2. Mount X pod tracking forward, Y pod tracking sideways (left/right).
  *   3. Name the device odo in Robot Configuration.
@@ -79,7 +78,7 @@ public class PinpointFullSetup extends LinearOpMode {
             // A = reset position + recalibrate IMU (robot must be still)
             if (gamepad1.a) {
                 odo.resetPosAndIMU();
-                telemetry.addLine("Reset position and IMU!");
+                telemetry.addLine("Reset position + IMU!");
             }
 
             // B = recalibrate IMU only (keeps position)
