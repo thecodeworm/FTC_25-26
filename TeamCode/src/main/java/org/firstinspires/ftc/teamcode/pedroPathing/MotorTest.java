@@ -61,7 +61,7 @@ public class MotorTest extends LinearOpMode {
                 );
             }
 
-            // B  →  Front Right
+            // B  to Front Right
             if (gamepad1.b && !prevB) {
                 frontRightReversed = !frontRightReversed;
                 frontRight.setDirection(
@@ -71,7 +71,7 @@ public class MotorTest extends LinearOpMode {
                 );
             }
 
-            // X  →  Back Left
+            // X  to Back Left
             if (gamepad1.x && !prevX) {
                 backLeftReversed = !backLeftReversed;
                 backLeft.setDirection(
