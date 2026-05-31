@@ -74,9 +74,9 @@ public class DriveAndPoseTeleOp extends LinearOpMode {
             poseEstimator.update(System.currentTimeMillis());
 
             // ── 2. Drive ─────────────────────────────────────────────────────
-            double drive  = -gamepad1.left_stick_y;
+            double drive  = -gamepad1.right_stick_x;
             double strafe =  gamepad1.left_stick_x;
-            double turn   =  gamepad1.right_stick_x;
+            double turn   =  gamepad1.left_stick_y;
             mecanum(drive, strafe, turn);
 
             // ── 3. Telemetry ─────────────────────────────────────────────────
@@ -100,9 +100,6 @@ public class DriveAndPoseTeleOp extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backLeft   = hardwareMap.get(DcMotor.class, "backLeft");
         backRight  = hardwareMap.get(DcMotor.class, "backRight");
-
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
 
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
