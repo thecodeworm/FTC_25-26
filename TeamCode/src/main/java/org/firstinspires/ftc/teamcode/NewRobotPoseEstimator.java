@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -42,7 +43,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
  *   3. Call getPose() to get the current best estimate.
  *   4. Call isInitialized() before trusting the pose.
  */
-public class RobotPoseEstimator {
+public class NewRobotPoseEstimator {
 
     // ─── Tuning constants ────────────────────────────────────────────────────
 
@@ -141,12 +142,15 @@ public class RobotPoseEstimator {
         odo.update();
         predictFromOdometry();
 
-        // Step 3: Correct from Limelight if a good pose is available
+        // Step 3: Feed current heading to Limelight for MegaTag2
+        limelight.updateRobotOrientation(Math.toDegrees(stateHeading));
+
+        // Step 4: Correct from Limelight MT2 if a good pose is available
         LLResult result = limelight.getLatestResult();
         if (result != null && result.isValid()) {
             int tagCount = countVisibleTags(result);
             if (tagCount >= MIN_TAGS_FOR_UPDATE) {
-                Pose3D botPose = result.getBotpose();
+                Pose3D botPose = result.getBotpose_MT2(); // MegaTag2
                 if (botPose != null) {
                     correctFromLimelight(botPose);
                 }
@@ -232,14 +236,15 @@ public class RobotPoseEstimator {
         }
 
         // Compute delta in odometry frame
-        double dOdoX = odoX - lastOdoX;
-        double dOdoY = odoY - lastOdoY;
+        double dOdoX    = odoX - lastOdoX;
+        double dOdoY    = odoY - lastOdoY;
         double dHeading = normalizeAngle(odoHeading - lastOdoHeading);
 
         lastOdoX       = odoX;
         lastOdoY       = odoY;
         lastOdoHeading = odoHeading;
 
+        // State prediction (Pinpoint already outputs field-frame, no rotation needed)
         stateX       += dOdoX;
         stateY       += dOdoY;
         stateHeading  = normalizeAngle(stateHeading + dHeading);
@@ -297,7 +302,7 @@ public class RobotPoseEstimator {
     // ─── Auto-Init ───────────────────────────────────────────────────────────
 
     /**
-     * Attempt to initialize pose from Limelight on first valid field-pose reading.
+     * Attempt to initialize pose from Limelight MT2 on first valid field-pose reading.
      * Requires seeing at least MIN_TAGS_FOR_UPDATE tags.
      */
     private void tryAutoInit() {
@@ -305,13 +310,16 @@ public class RobotPoseEstimator {
 
         odo.update();
 
+        // Feed heading to Limelight for MegaTag2 even during init
+        limelight.updateRobotOrientation(Math.toDegrees(stateHeading));
+
         LLResult result = limelight.getLatestResult();
         if (result == null || !result.isValid()) return;
 
         int tagCount = countVisibleTags(result);
         if (tagCount < MIN_TAGS_FOR_UPDATE) return;
 
-        Pose3D botPose = result.getBotpose();
+        Pose3D botPose = result.getBotpose_MT2(); // MegaTag2
         if (botPose == null) return;
 
         double x       = botPose.getPosition().x * 1000.0; // m → mm

@@ -122,7 +122,7 @@ public class DriveAndPoseTeleOp extends LinearOpMode {
         limelight.start();
 
         // Pose estimator + driver fallback selector
-        poseEstimator = new RobotPoseEstimator(odo, limelight);
+        poseEstimator = new NewRobotPoseEstimator(odo, limelight);
         posSelector   = new StartingPositionSelector(telemetry);
     }
 
