@@ -109,7 +109,7 @@ public class DriveAndPoseTeleOp extends LinearOpMode {
         // Pinpoint odometry
         odo = hardwareMap.get(GoBildaPinpointDriver.class, "odo");
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odo.setOffsets(-25.4, 0, DistanceUnit.MM); // ← match your PinpointFullSetup values
+        odo.setOffsets(0, 6, DistanceUnit.INCH); // ← match your PinpointFullSetup values
         odo.setEncoderDirections(
                 GoBildaPinpointDriver.EncoderDirection.FORWARD,
                 GoBildaPinpointDriver.EncoderDirection.FORWARD  // ← adjust if reversed in your test file
