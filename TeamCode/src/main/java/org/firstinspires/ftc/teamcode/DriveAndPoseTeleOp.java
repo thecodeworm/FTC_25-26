@@ -16,7 +16,7 @@ public class DriveAndPoseTeleOp extends LinearOpMode {
     private Limelight3A limelight;
 
     /* ==================== POSE ESTIMATOR ==================== */
-    private RobotPoseEstimator poseEstimator;
+    private NewRobotPoseEstimator poseEstimator;
     private StartingPositionSelector posSelector;
 
     /* ==================== MAIN ==================== */
@@ -74,9 +74,9 @@ public class DriveAndPoseTeleOp extends LinearOpMode {
             poseEstimator.update(System.currentTimeMillis());
 
             // ── 2. Drive ─────────────────────────────────────────────────────
-            double drive  = -gamepad1.right_stick_x;
+            double drive  = -gamepad1.left_stick_y;
             double strafe =  gamepad1.left_stick_x;
-            double turn   =  gamepad1.left_stick_y;
+            double turn   =  gamepad1.right_stick_x;
             mecanum(drive, strafe, turn);
 
             // ── 3. Telemetry ─────────────────────────────────────────────────

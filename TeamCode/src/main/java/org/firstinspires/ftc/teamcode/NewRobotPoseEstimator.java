@@ -113,7 +113,7 @@ public class NewRobotPoseEstimator {
      * @param odo       Already-initialized GoBildaPinpointDriver (call resetPosAndIMU before passing)
      * @param limelight Already-started Limelight3A (call pipelineSwitch + start before passing)
      */
-    public RobotPoseEstimator(GoBildaPinpointDriver odo, Limelight3A limelight) {
+    public NewRobotPoseEstimator(GoBildaPinpointDriver odo, Limelight3A limelight) {
         this.odo       = odo;
         this.limelight = limelight;
 
@@ -245,8 +245,8 @@ public class NewRobotPoseEstimator {
         lastOdoHeading = odoHeading;
 
         // State prediction (Pinpoint already outputs field-frame, no rotation needed)
-        stateX       += dOdoX;
-        stateY       += dOdoY;
+        stateX += dOdoX * Math.cos(stateHeading) - dOdoY * Math.sin(stateHeading);
+        stateY += dOdoX * Math.sin(stateHeading) + dOdoY * Math.cos(stateHeading);
         stateHeading  = normalizeAngle(stateHeading + dHeading);
 
         // Covariance prediction: P = F*P*F^T + Q
